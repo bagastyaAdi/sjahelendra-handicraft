@@ -1,0 +1,85 @@
+.category-sidebar-component {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    width: 100%;
+}
+
+.category-sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.category-root-list {
+    list-style: none;
+    padding: 0;
+}
+
+.category-root-item {
+    margin-bottom: 1rem;
+}
+
+.category-root-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-main-btn {
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    text-align: left;
+    flex-grow: 1;
+    padding: 5px 0;
+    letter-spacing: 0.05em;
+}
+
+.category-main-btn:hover,
+.category-main-btn.active {
+    color: var(--color-accent);
+}
+
+.toggle-icon-btn {
+    color: #999;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-icon-btn:hover {
+    color: var(--color-text-primary);
+}
+
+/* Sub List Styling */
+.category-sub-list {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 5px;
+}
+
+.category-sub-item {
+    display: flex;
+    justify-content: space-between;
+    /* For the extra arrow on Jewellery */
+    align-items: center;
+}
+
+.category-sub-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #666;
+    /* Specific lighter gray */
+    transition: all 0.2s;
+}
+
+.category-sub-btn:hover,
+.category-sub-btn.active {
+    color: var(--color-accent);
+}

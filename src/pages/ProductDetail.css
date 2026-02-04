@@ -1,0 +1,114 @@
+.product-detail-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+}
+
+.product-detail-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.product-detail-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detail-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-family: var(--font-serif);
+    color: var(--color-text-primary);
+}
+
+.detail-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.rating-text {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.detail-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+}
+
+.detail-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+}
+
+.detail-description {
+    margin-bottom: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.detail-description h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.detail-description p {
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+}
+
+.detail-category {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.detail-category span {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.related-products-section {
+    padding-top: 40px;
+    border-top: 1px solid var(--color-border);
+}
+
+.related-products-section .section-title {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .detail-title {
+        font-size: 2rem;
+    }
+}

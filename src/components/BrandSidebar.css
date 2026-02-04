@@ -1,0 +1,67 @@
+.brand-sidebar-component {
+    margin-top: 3rem;
+    font-family: var(--font-sans);
+}
+
+.brand-sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.brand-search-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.brand-search-input {
+    width: 100%;
+    padding: 10px 35px 10px 10px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+.brand-search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.brand-list {
+    list-style: none;
+    padding: 0;
+}
+
+.brand-item {
+    margin-bottom: 10px;
+}
+
+.brand-checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.brand-checkbox {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    /* Custom checkbox styling can be added here if needed, 
+       default is usually fine for minimal requests unless specified */
+}
+
+.brand-name {
+    margin-right: 5px;
+}
+
+.brand-count {
+    color: #999;
+}
