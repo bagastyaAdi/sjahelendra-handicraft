@@ -1,0 +1,33 @@
+.admin-contact .page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-contact .page-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.admin-contact .page-header p {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.settings-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.help-text {
+  display: block;
+  font-size: 0.78rem;
+  color: #999;
+  margin-top: 6px;
+}

@@ -1,39 +1,78 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Wishlist from './pages/Wishlist';
-import About from './pages/About';
-import ProductDetail from './pages/ProductDetail';
-import FAQs from './pages/FAQs';
-import Contact from './pages/Contact';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Footer from './components/layout/Footer/Footer';
+import Navbar from './components/layout/Navbar/Navbar';
+import ScrollToTop from './components/layout/ScrollToTop';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
+import FAQs from './pages/FAQs/FAQs';
+import Home from './pages/Home/Home';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
+import Shop from './pages/Shop/Shop';
+import Wishlist from './pages/Wishlist/Wishlist';
 
-import ScrollToTop from './components/ScrollToTop';
+// Admin imports
+import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
+import AdminAbout from './pages/Admin/About/AdminAbout';
+import AdminLayout from './pages/Admin/AdminLayout/AdminLayout';
+import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
+import AdminCarousel from './pages/Admin/Carousel/AdminCarousel';
+import AdminCategories from './pages/Admin/Categories/AdminCategories';
+import AdminContact from './pages/Admin/Contact/AdminContact';
+import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
+import AdminFAQs from './pages/Admin/FAQs/AdminFAQs';
+import AdminProducts from './pages/Admin/Products/AdminProducts';
+import ProductForm from './pages/Admin/Products/ProductForm';
+import AdminSettings from './pages/Admin/Settings/AdminSettings';
+
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="app">
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Shop />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/faqs" element={<FAQs />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* Add more routes as needed */}
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+        <Route path="/products" element={<PublicLayout><Shop /></PublicLayout>} />
+        <Route path="/product/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
+        <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
+        <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+        <Route path="/faqs" element={<PublicLayout><FAQs /></PublicLayout>} />
+        <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+
+        {/* Admin Login (no layout) */}
+        <Route path="/sj-manage/login" element={<AdminLogin />} />
+
+        {/* Admin Protected Routes */}
+        <Route path="/sj-manage" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="products/new" element={<ProductForm />} />
+          <Route path="products/edit/:id" element={<ProductForm />} />
+          <Route path="categories" element={<AdminCategories />} />
+          <Route path="carousel" element={<AdminCarousel />} />
+          <Route path="about" element={<AdminAbout />} />
+          <Route path="contact" element={<AdminContact />} />
+          <Route path="faqs" element={<AdminFAQs />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+
+        {/* Catch-all */}
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
+      </Routes>
     </Router>
+  );
+}
+
+// Public layout wrapper with Navbar and Footer
+function PublicLayout({ children }) {
+  return (
+    <div className="app">
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+    </div>
   );
 }
 

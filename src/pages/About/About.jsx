@@ -1,0 +1,107 @@
+import { useEffect, useState } from 'react';
+import Breadcrumbs from '../../components/common/Breadcrumbs/Breadcrumbs';
+import { supabase } from '../../lib/supabaseClient';
+import './About.css';
+
+// Clean Quill's &nbsp; entities so text-align: justify works properly
+const cleanHtml = (html) => {
+    if (!html) return html;
+    return html.replace(/&nbsp;/g, ' ');
+};
+
+const About = () => {
+    const [story, setStory] = useState({ title: '', paragraphs: [], image: '' });
+    const [sustainability, setSustainability] = useState({ title: '', paragraphs: [] });
+    const [team, setTeam] = useState({ title: '', members: [] });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchAboutContent();
+    }, []);
+
+    const fetchAboutContent = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('site_content')
+                .select('*')
+                .in('section_key', ['about_story', 'about_sustainability', 'about_team']);
+
+            if (error) throw error;
+
+            (data || []).forEach(item => {
+                if (item.section_key === 'about_story') setStory({ title: item.title, ...item.content });
+                if (item.section_key === 'about_sustainability') setSustainability({ title: item.title, ...item.content });
+                if (item.section_key === 'about_team') setTeam({ title: item.title, ...item.content });
+            });
+        } catch (error) {
+            console.error('Error fetching about content:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <div className="container" style={{ padding: '100px 50px', textAlign: 'center' }}>Loading story...</div>;
+    }
+
+    return (
+        <div className="about-page">
+            <div className="container">
+                <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'About Us', path: '/about' }]} />
+
+                <section className="about-hero">
+                    <h1 className="about-title">{story.title || 'Our Story'}</h1>
+                    <div className="about-content">
+                        {story.image && (
+                            <div className="about-image">
+                                <img src={story.image} alt="Our Story" />
+                            </div>
+                        )}
+                        <div className="about-text">
+                            <h2>Great Handicraft Bali Indonesia</h2>
+                            {story.html_content ? (
+                                <div dangerouslySetInnerHTML={{ __html: cleanHtml(story.html_content) }} className="rich-text-content" />
+                            ) : (
+                                story.paragraphs?.map((p, i) => (
+                                    <p key={i}>{p}</p>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="about-sustainability">
+                    <div className="sustainability-content">
+                        <h2>{sustainability.title || 'Sustainability & Impact'}</h2>
+                        {sustainability.html_content ? (
+                            <div dangerouslySetInnerHTML={{ __html: cleanHtml(sustainability.html_content) }} className="rich-text-content" />
+                        ) : (
+                            sustainability.paragraphs?.map((p, i) => (
+                                <p key={i}>{p}</p>
+                            ))
+                        )}
+                    </div>
+                </section>
+
+                {team.members && team.members.length > 0 && (
+                    <section className="about-team">
+                        <h2 className="team-title">{team.title || 'OUR TEAM'}</h2>
+                        <div className="team-grid">
+                            {team.members.map((member, i) => (
+                                <div key={i} className="team-card">
+                                    <img src={member.image || 'https://placehold.co/300x400/f0f0f0/999?text=No+Photo'} alt={member.name} className="team-photo-card" />
+                                    <div className="team-info">
+                                        <h3>{member.name}</h3>
+                                        <p>{member.role}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default About;

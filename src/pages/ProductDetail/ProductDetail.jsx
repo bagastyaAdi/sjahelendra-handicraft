@@ -1,0 +1,212 @@
+import { CheckCircle, Heart, Mail, MessageCircle, XCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import Breadcrumbs from '../../components/common/Breadcrumbs/Breadcrumbs';
+import ProductCard from '../../components/common/ProductCard/ProductCard';
+import { useWishlist } from '../../context/WishlistContext';
+import { supabase } from '../../lib/supabaseClient';
+import './ProductDetail.css';
+
+const ProductDetail = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [product, setProduct] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [settings, setSettings] = useState({ whatsapp_number: '', email: '' });
+    const { isInWishlist, toggleWishlist } = useWishlist();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        fetchProductAndSettings();
+    }, [id]);
+
+    const fetchProductAndSettings = async () => {
+        setLoading(true);
+        try {
+            // Fetch settings for contact buttons
+            const { data: settingsData } = await supabase
+                .from('site_settings')
+                .select('*')
+                .in('key', ['whatsapp_number', 'email']);
+
+            const settingsMap = {};
+            (settingsData || []).forEach(s => { settingsMap[s.key] = s.value; });
+            setSettings(settingsMap);
+
+            // Fetch product
+            const { data: productData, error: productError } = await supabase
+                .from('products')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (productError || !productData) {
+                setProduct(null);
+                return;
+            }
+
+            setProduct(productData);
+
+            // Fetch related products
+            if (productData.main_category) {
+                const { data: relatedData } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('main_category', productData.main_category)
+                    .neq('id', productData.id)
+                    .limit(4);
+
+                setRelatedProducts(relatedData || []);
+            }
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleWhatsAppBuy = () => {
+        if (!settings.whatsapp_number) {
+            alert("WhatsApp contact is not configured yet.");
+            return;
+        }
+        
+        // Remove any non-numeric characters from whatsapp number for the link, except leading +
+        let cleanNumber = settings.whatsapp_number.replace(/[^\d+]/g, '');
+        if (cleanNumber.startsWith('0')) {
+            cleanNumber = '+62' + cleanNumber.substring(1); // Assuming Indonesian format if starts with 0
+        }
+        
+        const message = `Hello Sjahlendra Handicraft! I'm interested in buying product:\n\n*${product.name}*\nLink: ${window.location.href}`;
+        const encodedMessage = encodeURIComponent(message);
+        
+        window.open(`https://wa.me/${cleanNumber.replace('+', '')}?text=${encodedMessage}`, '_blank');
+    };
+
+    const handleEmailBuy = () => {
+        if (!settings.email) {
+            alert("Email contact is not configured yet.");
+            return;
+        }
+
+        const subject = encodeURIComponent(`Purchase Inquiry: ${product.name}`);
+        const body = encodeURIComponent(`Hello Sjahlendra Handicraft,\n\nI am interested in purchasing the following product:\n\nProduct Name: ${product.name}\nProduct Link: ${window.location.href}\n\nPlease let me know about the availability, shipping, and payment process.\n\nThank you.`);
+        
+        // Menggunakan standar mailto agar kompatibel dengan app default user (Gmail di Android/iOS)
+        window.location.href = `mailto:${settings.email}?subject=${subject}&body=${body}`;
+    };
+
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+    };
+
+    if (loading) {
+        return <div className="container" style={{ padding: '100px 50px', textAlign: 'center' }}>Loading product details...</div>;
+    }
+
+    if (!product) {
+        return (
+            <div className="container product-not-found">
+                <h2>Product not found</h2>
+                <p>The product you're looking for doesn't exist or has been removed.</p>
+                <button onClick={() => navigate('/products')} className="btn btn-primary" style={{ marginTop: '20px' }}>
+                    Back to Shop
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="product-detail-page container">
+            <Breadcrumbs items={[
+                { label: 'Home', path: '/' },
+                { label: 'Shop', path: '/products' },
+                { label: product.name, path: `/product/${product.id}` }
+            ]} />
+            
+            <div className="product-detail-layout">
+                {/* Left: Image */}
+                <div className="product-detail-image">
+                    <img 
+                        src={product.image_url || 'https://placehold.co/800x800/f0f0f0/999?text=No+Image'} 
+                        alt={product.name} 
+                    />
+                </div>
+
+                {/* Right: Info */}
+                <div className="product-detail-info">
+                    <h1 className="detail-title">{product.name}</h1>
+
+                    <div className="detail-price">{formatPrice(product.price)}</div>
+
+                    {/* Purchase Actions */}
+                    <div className="purchase-actions">
+                        <button className="buy-wa-btn" onClick={handleWhatsAppBuy}>
+                            <MessageCircle size={20} />
+                            Buy via WhatsApp
+                        </button>
+                        <button className="buy-email-btn" onClick={handleEmailBuy}>
+                            <Mail size={20} />
+                            Buy via Email
+                        </button>
+                        <button
+                            className={`wishlist-detail-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+                            onClick={() => toggleWishlist(product)}
+                        >
+                            <Heart size={20} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
+                            {isInWishlist(product.id) ? 'In Wishlist' : 'Add to Wishlist'}
+                        </button>
+                    </div>
+
+                    {/* Stock Status */}
+                    <div className={`detail-status ${product.stock === 0 ? 'out-of-stock' : ''}`}>
+                        {product.stock === null || product.stock === undefined ? (
+                            <><CheckCircle size={16} color="#2e7d32" /><span>Available to Order</span></>
+                        ) : product.stock > 0 ? (
+                            <><CheckCircle size={16} color="#2e7d32" /><span>In Stock ({product.stock} available)</span></>
+                        ) : (
+                            <><XCircle size={16} color="#c62828" /><span>Out of Stock</span></>
+                        )}
+                    </div>
+
+                    {/* Description */}
+                    <div className="detail-description">
+                        <h3>Description</h3>
+                        <p>{product.description || 'No description available for this product.'}</p>
+                        <p style={{ marginTop: '10px' }}>
+                            Handcrafted with care by our skilled artisans in Bali using sustainable materials.
+                            Each piece is unique and carries the spirit of our heritage.
+                        </p> 
+                    </div>
+
+                    <div className="detail-meta">
+                        <p className="detail-category">
+                            Category: <span>{product.main_category || 'Uncategorized'}</span>
+                            {product.sub_category && ` / ${product.sub_category}`}
+                        </p>
+                        {product.brand && (
+                            <p className="detail-brand">
+                                Brand: <span>{product.brand}</span>
+                            </p>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Related Products */}
+            {relatedProducts.length > 0 && (
+                <div className="related-products-section">
+                    <h2 className="section-title">Related Products</h2>
+                    <div className="products-grid">
+                        {relatedProducts.map(related => (
+                            <ProductCard key={related.id} product={related} />
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ProductDetail;

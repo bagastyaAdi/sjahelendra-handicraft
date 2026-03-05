@@ -1,0 +1,289 @@
+/* ============================================
+   About Page — Modern, Elegant & Full-Width
+   ============================================ */
+
+.about-page {
+    padding-top: 1rem;
+    padding-bottom: 5rem;
+    background-color: var(--color-bg);
+}
+
+/* Wider container for about page */
+.about-page > .container {
+    max-width: 1100px;
+}
+
+/* ---- Page Title ---- */
+.about-title {
+    font-size: 2.8rem;
+    color: var(--color-text-primary);
+    margin-bottom: 3rem;
+    text-align: center;
+    font-family: var(--font-serif);
+    position: relative;
+    padding-bottom: 1.2rem;
+}
+
+.about-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+/* ---- Our Story Section — Stacked Full-Width ---- */
+.about-hero {
+    margin-bottom: 5rem;
+}
+
+.about-content {
+    width: 100%;
+}
+
+.about-content > * + * {
+    margin-top: 1.5rem;
+}
+
+.about-image {
+    text-align: center;
+}
+
+.about-image img {
+    display: block;
+    max-width: 500px;
+    max-height: 350px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    margin: 0 auto;
+}
+
+.about-text {
+    width: 100%;
+}
+
+.about-text h2 {
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-serif);
+    line-height: 1.3;
+    text-align: center;
+}
+
+.about-text p {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    font-size: 1rem;
+}
+
+/* ---- Rich Text Content (from Admin Editor) ---- */
+.rich-text-content {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.rich-text-content p {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    font-size: 1rem;
+}
+
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-text-primary);
+    font-family: var(--font-serif);
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+}
+
+.rich-text-content li {
+    margin-bottom: 0.4rem;
+}
+
+/* Quill Alignment Classes */
+.rich-text-content .ql-align-center { text-align: center !important; }
+.rich-text-content .ql-align-right  { text-align: right !important; }
+.rich-text-content .ql-align-justify { text-align: justify !important; }
+
+/* ---- Sustainability Section ---- */
+.about-sustainability {
+    background: linear-gradient(135deg, rgba(197, 137, 112, 0.06) 0%, rgba(141, 163, 153, 0.06) 100%);
+    padding: 4rem;
+    border-radius: 20px;
+    margin-bottom: 5rem;
+    border: 1px solid var(--color-border);
+}
+
+.sustainability-content {
+    width: 100%;
+}
+
+.sustainability-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
+    color: var(--color-text-primary);
+    text-align: center;
+    font-family: var(--font-serif);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.sustainability-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.sustainability-content p {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    font-size: 1rem;
+}
+
+.sustainability-content .rich-text-content p {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* ---- Team Section ---- */
+.about-team {
+    margin-top: 2rem;
+}
+
+.team-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-family: var(--font-serif);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.team-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.team-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.team-photo-card {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+}
+
+.team-info {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.team-info h3 {
+    font-size: 1.15rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.35rem;
+    font-family: var(--font-serif);
+}
+
+.team-info p {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 2.2rem;
+    }
+
+    .about-image img {
+        height: 280px;
+    }
+
+    .about-text h2 {
+        font-size: 1.6rem;
+    }
+
+    .about-sustainability {
+        padding: 2.5rem 1.5rem;
+        border-radius: 12px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}
