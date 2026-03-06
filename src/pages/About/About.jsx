@@ -86,6 +86,17 @@ const About = () => {
                 {team.members && team.members.length > 0 && (
                     <section className="about-team">
                         <h2 className="team-title">{team.title || 'OUR TEAM'}</h2>
+                        <div className="values-content">
+                            <p className="values-text">
+                                “At our company, we see our employees and partners as more than just team members—they are part of our family. We believe that bringing someone on board means taking on the responsibility to support, nurture, and empower them to grow both personally and professionally.
+                            </p>
+                            <p className="values-text">
+                                We are committed to creating a workplace where everyone feels valued, respected, and inspired to reach their full potential. We understand that success is built on trust and compassion, and we strive to maintain a balance where achieving our business goals never comes at the expense of our team’s well-being.
+                            </p>
+                            <p className="values-text">
+                                For us, success isn’t just about numbers—it’s about the positive impact we have on the lives of our team members. After all, a thriving business grows together with its people, because family always comes first.”
+                            </p>
+                        </div>
                         <div className="team-grid">
                             {team.members.map((member, i) => (
                                 <div key={i} className="team-card">

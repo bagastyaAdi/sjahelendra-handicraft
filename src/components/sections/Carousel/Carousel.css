@@ -67,6 +67,10 @@
     z-index: 3;
     color: white;
     max-width: 800px;
+    text-align: left;
+    margin-left: 10%;
+    margin-right: auto;
+    padding: 0 40px;
 }
 
 .carousel-subtitle {
@@ -104,6 +108,7 @@
     font-size: 1.2rem;
     margin-bottom: 2rem;
     max-width: 600px;
+    text-align: left;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease 0.7s;
@@ -164,6 +169,13 @@
 
     .carousel-content {
         padding: 0 20px;
+        margin-left: 0; /* Reset desktop margin */
+        text-align: left;
+        width: 100%; /* Ensure it spans properly */
+    }
+
+    .carousel-title, .carousel-subtitle, .carousel-description {
+        text-align: left;
     }
 
     .carousel-slide.brand-slide {

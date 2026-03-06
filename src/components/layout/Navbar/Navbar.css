@@ -158,10 +158,25 @@
         display: flex !important;
     }
 
-    /* On mobile, maybe expanding search pushes logo/icons? 
-       For now, let's keep it simple overlay or smaller width */
+    /* Adjust nav-icons gap to save space on mobile */
+    .nav-icons {
+        gap: 12px;
+    }
+
+    /* Keep search container inline but compact */
+    .search-container.open {
+        position: relative;
+        right: auto; /* Reset any absolute positioning */
+        background: #f5f5f5;
+        box-shadow: none;
+        padding: 4px 8px;
+        border: none;
+        z-index: 10;
+    }
+
     .search-container.open input {
-        width: 120px;
+        width: 110px; /* Smaller width for mobile */
+        font-size: 0.85rem;
     }
 
     .mobile-menu {
@@ -176,5 +191,6 @@
         right: 0;
         gap: 15px;
         align-items: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
 }

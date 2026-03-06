@@ -80,14 +80,11 @@
 
 .about-text p {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    font-size: 1rem;
+    text-align: left;
+    font-size: 1.05rem;
 }
 
 /* ---- Rich Text Content (from Admin Editor) ---- */
@@ -100,14 +97,16 @@
 
 .rich-text-content p {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    font-size: 1rem;
+    text-align: left;
+    font-size: 1.05rem;
+}
+
+/* Override inline backgrounds from rich text editors */
+.rich-text-content * {
+    background-color: transparent !important;
 }
 
 .rich-text-content h1,
@@ -173,19 +172,15 @@
 
 .sustainability-content p {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    font-size: 1rem;
+    text-align: left;
+    font-size: 1.05rem;
 }
 
 .sustainability-content .rich-text-content p {
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 /* ---- Team Section ---- */
@@ -196,7 +191,7 @@
 .team-title {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem; /* Reduced because text is right below it now */
     text-transform: uppercase;
     letter-spacing: 3px;
     font-family: var(--font-serif);
@@ -223,17 +218,20 @@
 }
 
 .team-card {
-    background: white;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
     overflow: hidden;
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.4s ease;
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
 }
 
 .team-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-accent);
 }
 
 .team-photo-card {
@@ -262,6 +260,50 @@
     letter-spacing: 1.5px;
 }
 
+/* ---- Values Section ---- */
+.about-values {
+    margin-top: 3rem;
+    padding: 1rem 0 0;
+    text-align: center;
+}
+
+.values-content {
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto; /* Added bottom margin to push the team grid down */
+}
+
+.values-title {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-family: var(--font-serif);
+    position: relative;
+    padding-bottom: 1rem;
+    color: var(--color-text-primary);
+}
+
+.values-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.values-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    font-style: italic;
+    text-align: center;
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
     .about-title {
@@ -279,6 +321,19 @@
     .about-sustainability {
         padding: 2.5rem 1.5rem;
         border-radius: 12px;
+    }
+
+    .about-values {
+        padding: 1rem 1rem 0; /* Reduced top padding to pull it closer to the title */
+        margin-top: 2rem; /* Reduced top margin on mobile */
+    }
+
+    .values-content {
+        margin-bottom: 2rem; /* Less space before grid on mobile */
+    }
+
+    .values-text {
+        font-size: 1rem;
     }
 
     .team-grid {

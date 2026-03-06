@@ -1,3 +1,4 @@
+import { Facebook, Instagram } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../../lib/supabaseClient';
@@ -58,16 +59,28 @@ const Footer = () => {
                     <h4>About</h4>
                     <ul>
                         <li><Link to="/about">Our Story</Link></li>
-                        <li><Link to="/about">Artisans</Link></li>
-                        <li><Link to="/about">Sustainability</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                     </ul>
                 </div>
 
                 <div className="footer-col">
+                    <h4>Our Social Media</h4>
+                    <div className="social-links">
+                        <a href="https://www.instagram.com/sjahlendra_handicraft/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
+                            <Instagram size={20} />
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.facebook.com/sjahlendra.handicraft" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook">
+                            <Facebook size={20} />
+                            <span>Facebook</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div className="footer-col">
                     <h4>Stay Connected</h4>
                     <div className="contact-details">
-                        <p style={{ marginBottom: '10px' }}>
+                        <p>
                             {contactInfo.phone || '+62 813-1666-3377'}
                         </p>
                         <p>{contactInfo.email || 'info@sjahlendra.com'}</p>
