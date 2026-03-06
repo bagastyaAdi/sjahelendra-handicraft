@@ -9,6 +9,8 @@ const AdminSettings = () => {
     whatsapp_number: '',
     email: '',
     phone: '',
+    hide_price: false,
+    hide_stock: false,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -24,7 +26,14 @@ const AdminSettings = () => {
       if (error) throw error;
 
       const settingsMap = {};
-      (data || []).forEach(s => { settingsMap[s.key] = s.value; });
+      (data || []).forEach(s => {
+        // Convert 'true'/'false' strings to booleans for specific keys
+        if (s.key === 'hide_price' || s.key === 'hide_stock') {
+          settingsMap[s.key] = s.value === 'true' || s.value === true; // Handle both string and boolean storage
+        } else {
+          settingsMap[s.key] = s.value;
+        }
+      });
       setSettings(prev => ({ ...prev, ...settingsMap }));
     } catch (err) {
       console.error('Error fetching settings:', err);
@@ -39,9 +48,14 @@ const AdminSettings = () => {
 
     try {
       for (const [key, value] of Object.entries(settings)) {
+        // Convert boolean values to string 'true'/'false' for storage if needed,
+        // or let Supabase handle boolean storage directly.
+        // For consistency with previous string storage, we'll convert booleans to strings.
+        const valueToStore = typeof value === 'boolean' ? String(value) : value;
+
         const { error } = await supabase
           .from('site_settings')
-          .upsert({ key, value }, { onConflict: 'key' });
+          .upsert({ key, value: valueToStore }, { onConflict: 'key' });
         if (error) throw error;
       }
       setMessage({ type: 'success', text: 'Settings saved successfully!' });
@@ -127,6 +141,39 @@ const AdminSettings = () => {
             onChange={(e) => handleChange('phone', e.target.value)}
             placeholder="+62 813-1666-3377"
           />
+        </div>
+      </div>
+
+      <div className="content-section">
+        <h2>Storefront Preferences</h2>
+        <p className="section-description">Toggle options related to what customers can see on the public storefront.</p>
+        
+        <div className="form-group checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={settings.hide_price}
+              onChange={(e) => handleChange('hide_price', e.target.checked)}
+            />
+            <span>Hide Product Prices</span>
+          </label>
+          <small className="help-text">
+            If checked, prices will be hidden from all public pages (Shop, Home, Product Details).
+          </small>
+        </div>
+
+        <div className="form-group checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={settings.hide_stock}
+              onChange={(e) => handleChange('hide_stock', e.target.checked)}
+            />
+            <span>Hide Stock Status</span>
+          </label>
+          <small className="help-text">
+            If checked, stock badges and availability status will be hidden from public pages.
+          </small>
         </div>
       </div>
     </div>

@@ -3,23 +3,30 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumbs from '../../components/common/Breadcrumbs/Breadcrumbs';
 import ProductCard from '../../components/common/ProductCard/ProductCard';
+import { useSettings } from '../../context/SettingsContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { supabase } from '../../lib/supabaseClient';
+import { createSlug, revertSlug } from '../../utils/slugHelper';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
-    const { id } = useParams();
+    const { name } = useParams();
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [settings, setSettings] = useState({ whatsapp_number: '', email: '' });
+    // Contact settings is now part of the global context, but we keep this local state for now
+    // or we can refactor to use the global settings
+    const [localSettings, setLocalSettings] = useState({ whatsapp_number: '', email: '' });
     const { isInWishlist, toggleWishlist } = useWishlist();
+    const { settings: globalSettings } = useSettings();
+    const hidePrice = globalSettings?.hide_price === 'true' || globalSettings?.hide_price === true;
+    const hideStock = globalSettings?.hide_stock === 'true' || globalSettings?.hide_stock === true;
 
     useEffect(() => {
         window.scrollTo(0, 0);
         fetchProductAndSettings();
-    }, [id]);
+    }, [name]);
 
     const fetchProductAndSettings = async () => {
         setLoading(true);
@@ -32,13 +39,14 @@ const ProductDetail = () => {
 
             const settingsMap = {};
             (settingsData || []).forEach(s => { settingsMap[s.key] = s.value; });
-            setSettings(settingsMap);
+            setLocalSettings(settingsMap);
 
-            // Fetch product
+            // Fetch product using the slug (converted to search string)
+            const searchableName = revertSlug(name);
             const { data: productData, error: productError } = await supabase
                 .from('products')
                 .select('*')
-                .eq('id', id)
+                .ilike('name', searchableName)
                 .single();
 
             if (productError || !productData) {
@@ -67,13 +75,13 @@ const ProductDetail = () => {
     };
 
     const handleWhatsAppBuy = () => {
-        if (!settings.whatsapp_number) {
+        if (!localSettings.whatsapp_number) {
             alert("WhatsApp contact is not configured yet.");
             return;
         }
         
         // Remove any non-numeric characters from whatsapp number for the link, except leading +
-        let cleanNumber = settings.whatsapp_number.replace(/[^\d+]/g, '');
+        let cleanNumber = localSettings.whatsapp_number.replace(/[^\d+]/g, '');
         if (cleanNumber.startsWith('0')) {
             cleanNumber = '+62' + cleanNumber.substring(1); // Assuming Indonesian format if starts with 0
         }
@@ -85,7 +93,7 @@ const ProductDetail = () => {
     };
 
     const handleEmailBuy = () => {
-        if (!settings.email) {
+        if (!localSettings.email) {
             alert("Email contact is not configured yet.");
             return;
         }
@@ -94,7 +102,7 @@ const ProductDetail = () => {
         const body = encodeURIComponent(`Hello Sjahlendra Handicraft,\n\nI am interested in purchasing the following product:\n\nProduct Name: ${product.name}\nProduct Link: ${window.location.href}\n\nPlease let me know about the availability, shipping, and payment process.\n\nThank you.`);
         
         // Menggunakan standar mailto agar kompatibel dengan app default user (Gmail di Android/iOS)
-        window.location.href = `mailto:${settings.email}?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${localSettings.email}?subject=${subject}&body=${body}`;
     };
 
     const formatPrice = (price) => {
@@ -122,7 +130,7 @@ const ProductDetail = () => {
             <Breadcrumbs items={[
                 { label: 'Home', path: '/' },
                 { label: 'Shop', path: '/products' },
-                { label: product.name, path: `/product/${product.id}` }
+                { label: product.name, path: `/product/${createSlug(product.name)}` }
             ]} />
             
             <div className="product-detail-layout">
@@ -138,7 +146,7 @@ const ProductDetail = () => {
                 <div className="product-detail-info">
                     <h1 className="detail-title">{product.name}</h1>
 
-                    <div className="detail-price">{formatPrice(product.price)}</div>
+                    {!hidePrice && <div className="detail-price">{formatPrice(product.price)}</div>}
 
                     {/* Purchase Actions */}
                     <div className="purchase-actions">
@@ -160,15 +168,17 @@ const ProductDetail = () => {
                     </div>
 
                     {/* Stock Status */}
-                    <div className={`detail-status ${product.stock === 0 ? 'out-of-stock' : ''}`}>
-                        {product.stock === null || product.stock === undefined ? (
-                            <><CheckCircle size={16} color="#2e7d32" /><span>Available to Order</span></>
-                        ) : product.stock > 0 ? (
-                            <><CheckCircle size={16} color="#2e7d32" /><span>In Stock ({product.stock} available)</span></>
-                        ) : (
-                            <><XCircle size={16} color="#c62828" /><span>Out of Stock</span></>
-                        )}
-                    </div>
+                    {!hideStock && (
+                        <div className={`detail-status ${product.stock === 0 ? 'out-of-stock' : ''}`}>
+                            {product.stock === null || product.stock === undefined ? (
+                                <><CheckCircle size={16} color="#2e7d32" /><span>Available to Order</span></>
+                            ) : product.stock > 0 ? (
+                                <><CheckCircle size={16} color="#2e7d32" /><span>In Stock ({product.stock} available)</span></>
+                            ) : (
+                                <><XCircle size={16} color="#c62828" /><span>Out of Stock</span></>
+                            )}
+                        </div>
+                    )}
 
                     {/* Description */}
                     <div className="detail-description">

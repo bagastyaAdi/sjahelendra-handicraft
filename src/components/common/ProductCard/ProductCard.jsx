@@ -1,11 +1,16 @@
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../../../context/SettingsContext';
 import { useWishlist } from '../../../context/WishlistContext';
+import { createSlug } from '../../../utils/slugHelper';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
     const { isInWishlist, toggleWishlist } = useWishlist();
+    const { settings } = useSettings();
     const isLiked = isInWishlist(product.id);
+    const hidePrice = settings?.hide_price === 'true' || settings?.hide_price === true;
+    const hideStock = settings?.hide_stock === 'true' || settings?.hide_stock === true;
 
     const handleToggleLike = (e) => {
         e.preventDefault();
@@ -32,7 +37,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="product-card">
-            <Link to={`/product/${product.id}`} className="product-image-container">
+            <Link to={`/product/${createSlug(product.name)}`} className="product-image-container">
                 <img
                     src={product.image_url || product.image || 'https://placehold.co/400x400/f0f0f0/999?text=No+Image'}
                     alt={product.name}
@@ -54,7 +59,7 @@ const ProductCard = ({ product }) => {
                 )}
 
                 {/* Stock Badge */}
-                {stockInfo && stockInfo.className === 'stock-out' && (
+                {!hideStock && stockInfo && stockInfo.className === 'stock-out' && (
                     <div className="sold-out-overlay">
                         <span>Sold Out</span>
                     </div>
@@ -63,12 +68,12 @@ const ProductCard = ({ product }) => {
 
             <div className="product-info">
                 <span className="product-category">{product.sub_category || product.main_category || ''}</span>
-                <Link to={`/product/${product.id}`} className="product-title-link">
+                <Link to={`/product/${createSlug(product.name)}`} className="product-title-link">
                     <h3 className="product-title">{product.name}</h3>
                 </Link>
                 <div className="product-bottom">
-                    <span className="product-price">{formatPrice(product.price)}</span>
-                    {stockInfo && stockInfo.className !== 'stock-out' && (
+                    {!hidePrice && <span className="product-price">{formatPrice(product.price)}</span>}
+                    {!hideStock && stockInfo && stockInfo.className !== 'stock-out' && (
                         <span className={`stock-badge ${stockInfo.className}`}>
                             {stockInfo.label}
                         </span>

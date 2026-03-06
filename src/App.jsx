@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/layout/Footer/Footer';
 import Navbar from './components/layout/Navbar/Navbar';
 import ScrollToTop from './components/layout/ScrollToTop';
+import { SettingsProvider } from './context/SettingsContext';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import FAQs from './pages/FAQs/FAQs';
@@ -30,37 +31,39 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-        <Route path="/products" element={<PublicLayout><Shop /></PublicLayout>} />
-        <Route path="/product/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
-        <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
-        <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
-        <Route path="/faqs" element={<PublicLayout><FAQs /></PublicLayout>} />
-        <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+      <SettingsProvider>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+          <Route path="/products" element={<PublicLayout><Shop /></PublicLayout>} />
+          <Route path="/product/:name" element={<PublicLayout><ProductDetail /></PublicLayout>} />
+          <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
+          <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+          <Route path="/faqs" element={<PublicLayout><FAQs /></PublicLayout>} />
+          <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
 
-        {/* Admin Login (no layout) */}
-        <Route path="/sj-manage/login" element={<AdminLogin />} />
+          {/* Admin Login (no layout) */}
+          <Route path="/sj-manage/login" element={<AdminLogin />} />
 
-        {/* Admin Protected Routes */}
-        <Route path="/sj-manage" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
-          <Route index element={<AdminDashboard />} />
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="products/new" element={<ProductForm />} />
-          <Route path="products/edit/:id" element={<ProductForm />} />
-          <Route path="categories" element={<AdminCategories />} />
-          <Route path="carousel" element={<AdminCarousel />} />
-          <Route path="about" element={<AdminAbout />} />
-          <Route path="contact" element={<AdminContact />} />
-          <Route path="faqs" element={<AdminFAQs />} />
-          <Route path="settings" element={<AdminSettings />} />
-        </Route>
+          {/* Admin Protected Routes */}
+          <Route path="/sj-manage" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="products/new" element={<ProductForm />} />
+            <Route path="products/edit/:id" element={<ProductForm />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="carousel" element={<AdminCarousel />} />
+            <Route path="about" element={<AdminAbout />} />
+            <Route path="contact" element={<AdminContact />} />
+            <Route path="faqs" element={<AdminFAQs />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
 
-        {/* Catch-all */}
-        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
-      </Routes>
+          {/* Catch-all */}
+          <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
+        </Routes>
+      </SettingsProvider>
     </Router>
   );
 }

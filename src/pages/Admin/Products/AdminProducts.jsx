@@ -2,6 +2,7 @@ import { AlertCircle, Edit2, Eye, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../../lib/supabaseClient';
+import { createSlug } from '../../../utils/slugHelper';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
@@ -135,7 +136,7 @@ const AdminProducts = () => {
                   </td>
                   <td>
                     <div className="action-btns">
-                      <a href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer" className="action-btn view">
+                      <a href={`/product/${createSlug(product.name)}`} target="_blank" rel="noopener noreferrer" className="action-btn view">
                         <Eye size={16} />
                       </a>
                       <Link to={`/sj-manage/products/edit/${product.id}`} className="action-btn edit">
