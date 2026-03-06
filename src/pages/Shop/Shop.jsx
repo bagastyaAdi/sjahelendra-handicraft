@@ -70,12 +70,16 @@ const Shop = () => {
         }
 
         // Sorting
-        if (sortBy === "price-low") {
-            result.sort((a, b) => a.price - b.price);
-        } else if (sortBy === "price-high") {
-            result.sort((a, b) => b.price - a.price);
+        if (sortBy === "best-seller") {
+            // Sort by is_best_seller status first, then by newest
+            result.sort((a, b) => {
+                if (a.is_best_seller === b.is_best_seller) {
+                    return b.id - a.id;
+                }
+                return a.is_best_seller ? -1 : 1;
+            });
         } else {
-            // "newest" sort by created_at or id descending
+            // Default to newest arrivals
             result.sort((a, b) => b.id - a.id);
         }
 
@@ -200,9 +204,8 @@ const Shop = () => {
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                             >
-                                <option value="newest">Newest Arrivals</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">New Arrivals</option>
+                                <option value="best-seller">Best Sellers</option>
                             </select>
 
                             <div className="view-toggle">
