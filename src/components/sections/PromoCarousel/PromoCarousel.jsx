@@ -69,7 +69,15 @@ const PromoCarousel = () => {
         setCurrentSlide(prev => (prev - 1 + slides.length) % slides.length);
     };
 
-    if (loading || slides.length === 0) return null;
+    if (loading) {
+        return (
+            <div className="promo-carousel-skeleton">
+                <div className="promo-skeleton-loader loading-shimmer"></div>
+            </div>
+        );
+    }
+    
+    if (slides.length === 0) return null;
 
     return (
         <div className="promo-carousel">

@@ -64,7 +64,20 @@ const Carousel = () => {
         return () => clearInterval(timer);
     }, [slides.length]);
 
-    if (loading) return null;
+    if (loading) {
+        return (
+            <div className="carousel-skeleton">
+                <div className="skeleton-overlay"></div>
+                <div className="skeleton-content container">
+                    <div className="skeleton-loader logo-skeleton loading-shimmer"></div>
+                    <div className="skeleton-loader subtitle-skeleton loading-shimmer"></div>
+                    <div className="skeleton-loader title-skeleton loading-shimmer"></div>
+                    <div className="skeleton-loader description-skeleton loading-shimmer"></div>
+                    <div className="skeleton-loader button-skeleton loading-shimmer"></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="carousel">
