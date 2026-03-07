@@ -12,6 +12,7 @@ const ProductForm = () => {
 
   const [form, setForm] = useState({
     name: '',
+    code: '',
     description: '',
     category: '',
     main_category: '',
@@ -63,6 +64,7 @@ const ProductForm = () => {
       if (data) {
         setForm({
           name: data.name || '',
+          code: data.code || '',
           description: data.description || '',
           category: data.category || '',
           main_category: data.main_category || '',
@@ -169,6 +171,7 @@ const ProductForm = () => {
 
       const productData = {
         name: form.name,
+        code: form.code,
         description: form.description,
         category: form.category,
         main_category: form.main_category,
@@ -246,6 +249,18 @@ const ProductForm = () => {
                 onChange={handleChange}
                 placeholder="Enter product name"
                 required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="code">Product Code (Optional)</label>
+              <input
+                type="text"
+                id="code"
+                name="code"
+                value={form.code}
+                onChange={handleChange}
+                placeholder="e.g. BALI-001"
               />
             </div>
 

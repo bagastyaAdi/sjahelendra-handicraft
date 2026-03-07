@@ -2,14 +2,15 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/layout/Footer/Footer';
 import Navbar from './components/layout/Navbar/Navbar';
 import ScrollToTop from './components/layout/ScrollToTop';
+import { CartProvider } from './context/CartContext';
 import { SettingsProvider } from './context/SettingsContext';
 import About from './pages/About/About';
+import Cart from './pages/Cart/Cart';
 import Contact from './pages/Contact/Contact';
 import FAQs from './pages/FAQs/FAQs';
 import Home from './pages/Home/Home';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Shop from './pages/Shop/Shop';
-import Wishlist from './pages/Wishlist/Wishlist';
 
 // Admin imports
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
@@ -32,12 +33,13 @@ function App() {
     <Router>
       <ScrollToTop />
       <SettingsProvider>
+        <CartProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
           <Route path="/products" element={<PublicLayout><Shop /></PublicLayout>} />
           <Route path="/product/:name" element={<PublicLayout><ProductDetail /></PublicLayout>} />
-          <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
+          <Route path="/cart" element={<PublicLayout><Cart /></PublicLayout>} />
           <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
           <Route path="/faqs" element={<PublicLayout><FAQs /></PublicLayout>} />
           <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
@@ -63,6 +65,7 @@ function App() {
           {/* Catch-all */}
           <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
         </Routes>
+        </CartProvider>
       </SettingsProvider>
     </Router>
   );

@@ -1,10 +1,10 @@
-import { CheckCircle, Heart, Mail, MessageCircle, XCircle } from 'lucide-react';
+import { CheckCircle, Mail, MessageCircle, ShoppingCart, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumbs from '../../components/common/Breadcrumbs/Breadcrumbs';
 import ProductCard from '../../components/common/ProductCard/ProductCard';
+import { useCart } from '../../context/CartContext';
 import { useSettings } from '../../context/SettingsContext';
-import { useWishlist } from '../../context/WishlistContext';
 import { supabase } from '../../lib/supabaseClient';
 import { createSlug, revertSlug } from '../../utils/slugHelper';
 import './ProductDetail.css';
@@ -18,7 +18,7 @@ const ProductDetail = () => {
     // Contact settings is now part of the global context, but we keep this local state for now
     // or we can refactor to use the global settings
     const [localSettings, setLocalSettings] = useState({ whatsapp_number: '', email: '' });
-    const { isInWishlist, toggleWishlist } = useWishlist();
+    const { isInCart, addToCart, removeFromCart } = useCart();
     const { settings: globalSettings } = useSettings();
     const hidePrice = globalSettings?.hide_price === 'true' || globalSettings?.hide_price === true;
     const hideStock = globalSettings?.hide_stock === 'true' || globalSettings?.hide_stock === true;
@@ -159,11 +159,11 @@ const ProductDetail = () => {
                             Buy via Email
                         </button>
                         <button
-                            className={`wishlist-detail-btn ${isInWishlist(product.id) ? 'active' : ''}`}
-                            onClick={() => toggleWishlist(product)}
+                            className={`cart-detail-btn ${isInCart(product.id) ? 'active' : ''}`}
+                            onClick={() => isInCart(product.id) ? removeFromCart(product.id) : addToCart(product)}
                         >
-                            <Heart size={20} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
-                            {isInWishlist(product.id) ? 'In Wishlist' : 'Add to Wishlist'}
+                            <ShoppingCart size={20} fill={isInCart(product.id) ? 'currentColor' : 'none'} />
+                            {isInCart(product.id) ? 'In Cart' : 'Add to Cart'}
                         </button>
                     </div>
 
@@ -198,6 +198,11 @@ const ProductDetail = () => {
                         {product.brand && (
                             <p className="detail-brand">
                                 Brand: <span>{product.brand}</span>
+                            </p>
+                        )}
+                        {product.code && (
+                            <p className="detail-code">
+                                Product Code: <span>{product.code}</span>
                             </p>
                         )}
                     </div>

@@ -179,10 +179,15 @@
     box-shadow: 0 4px 8px rgba(229, 57, 53, 0.15);
 }
 
-.action-btn.liked {
-    color: #e53935;
-    background: #fff5f5;
-    border-color: #ffcdd2;
+.action-btn.in-cart {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(197, 137, 112, 0.3);
+}
+
+.action-btn.in-cart:hover {
+    background: #b27a63;
 }
 
 @media (max-width: 768px) {

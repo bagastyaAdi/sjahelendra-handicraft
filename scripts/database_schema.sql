@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS public.products (
     description text,
     is_best_seller boolean DEFAULT false,
     brand text,
+    code text,
     created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
     stock int4 DEFAULT 0

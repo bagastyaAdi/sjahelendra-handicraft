@@ -1,21 +1,25 @@
-import { Heart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../../../context/CartContext';
 import { useSettings } from '../../../context/SettingsContext';
-import { useWishlist } from '../../../context/WishlistContext';
 import { createSlug } from '../../../utils/slugHelper';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
-    const { isInWishlist, toggleWishlist } = useWishlist();
+    const { isInCart, addToCart, removeFromCart } = useCart();
     const { settings } = useSettings();
-    const isLiked = isInWishlist(product.id);
+    const inCart = isInCart(product.id);
     const hidePrice = settings?.hide_price === 'true' || settings?.hide_price === true;
     const hideStock = settings?.hide_stock === 'true' || settings?.hide_stock === true;
 
-    const handleToggleLike = (e) => {
+    const handleCartToggle = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        toggleWishlist(product);
+        if (inCart) {
+            removeFromCart(product.id);
+        } else {
+            addToCart(product);
+        }
     };
 
     const formatPrice = (price) => {
@@ -46,11 +50,11 @@ const ProductCard = ({ product }) => {
                 />
                 {/* Wishlist Button */}
                 <button
-                    className={`wishlist-btn ${isLiked ? 'active' : ''}`}
-                    onClick={handleToggleLike}
-                    aria-label={isLiked ? "Remove from wishlist" : "Add to wishlist"}
+                    className={`cart-btn ${inCart ? 'active' : ''}`}
+                    onClick={handleCartToggle}
+                    aria-label={inCart ? "Remove from cart" : "Add to cart"}
                 >
-                    <Heart size={16} fill={isLiked ? "currentColor" : "none"} />
+                    <ShoppingCart size={16} fill={inCart ? "currentColor" : "none"} />
                 </button>
 
                 {/* Best Seller Badge */}

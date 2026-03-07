@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Heart, Search, Menu, X } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Menu, Search, ShoppingCart, X } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-import { useWishlist } from '../../../context/WishlistContext';
+import { useCart } from '../../../context/CartContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
-    const { wishlist } = useWishlist();
+    const { cart } = useCart();
 
     const handleSearch = () => {
         if (searchQuery.trim()) {
@@ -55,9 +55,9 @@ const Navbar = () => {
                             <Search size={20} />
                         </button>
                     </div>
-                    <Link to="/wishlist" className="nav-icon-link" aria-label="Wishlist">
-                        <Heart size={20} />
-                        {wishlist.length > 0 && <span className="wishlist-badge">{wishlist.length}</span>}
+                    <Link to="/cart" className="nav-icon-link" aria-label="Cart">
+                        <ShoppingCart size={20} />
+                        {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
                     </Link>
                     <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? <X size={24} /> : <Menu size={24} />}

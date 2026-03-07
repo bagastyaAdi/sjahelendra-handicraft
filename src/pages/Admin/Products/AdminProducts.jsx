@@ -48,7 +48,8 @@ const AdminProducts = () => {
 
   const filteredProducts = products.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (p.main_category || '').toLowerCase().includes(searchQuery.toLowerCase())
+    (p.main_category || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (p.code || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const formatPrice = (price) => {
@@ -102,6 +103,7 @@ const AdminProducts = () => {
             <thead>
               <tr>
                 <th>Product</th>
+                <th>Code</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Best Seller</th>
@@ -122,6 +124,9 @@ const AdminProducts = () => {
                         <span className="product-name">{product.name}</span>
                       </div>
                     </div>
+                  </td>
+                  <td>
+                    <span className="code-badge">{product.code || '-'}</span>
                   </td>
                   <td>
                     <span className="category-badge">{product.main_category || '-'}</span>
