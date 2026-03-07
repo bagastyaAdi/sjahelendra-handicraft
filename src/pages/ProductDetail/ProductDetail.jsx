@@ -6,7 +6,7 @@ import ProductCard from '../../components/common/ProductCard/ProductCard';
 import { useCart } from '../../context/CartContext';
 import { useSettings } from '../../context/SettingsContext';
 import { supabase } from '../../lib/supabaseClient';
-import { createSlug, revertSlug } from '../../utils/slugHelper';
+import { createSlug } from '../../utils/slugHelper';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -41,12 +41,12 @@ const ProductDetail = () => {
             (settingsData || []).forEach(s => { settingsMap[s.key] = s.value; });
             setLocalSettings(settingsMap);
 
-            // Fetch product using the slug (converted to search string)
-            const searchableName = revertSlug(name);
+            // Fetch product using the slug (converted to search pattern)
+            const searchPattern = name.replace(/-/g, '%');
             const { data: productData, error: productError } = await supabase
                 .from('products')
                 .select('*')
-                .ilike('name', searchableName)
+                .ilike('name', `%${searchPattern}%`)
                 .single();
 
             if (productError || !productData) {
