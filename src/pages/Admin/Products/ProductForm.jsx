@@ -22,6 +22,7 @@ const ProductForm = () => {
     is_best_seller: false,
     image_url: '',
     stock: '',
+    is_hidden: false,
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -74,6 +75,7 @@ const ProductForm = () => {
           is_best_seller: data.is_best_seller || false,
           image_url: data.image_url || '',
           stock: data.stock !== null ? data.stock : '',
+          is_hidden: data.is_hidden || false,
         });
         setImagePreview(data.image_url || '');
       }
@@ -176,11 +178,12 @@ const ProductForm = () => {
         category: form.category,
         main_category: form.main_category,
         sub_category: form.sub_category,
-        price: parseInt(form.price) || 0,
+        price: form.price !== '' ? parseInt(form.price) : null,
         brand: form.brand,
         is_best_seller: form.is_best_seller,
         image_url: imageUrl,
         stock: form.stock !== '' ? parseInt(form.stock) : null,
+        is_hidden: form.is_hidden,
       };
 
       if (isEditing) {
@@ -307,7 +310,7 @@ const ProductForm = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="price">Price (IDR) *</label>
+                <label htmlFor="price">Price (IDR)</label>
                 <input
                   type="number"
                   id="price"
@@ -315,7 +318,6 @@ const ProductForm = () => {
                   value={form.price}
                   onChange={handleChange}
                   placeholder="e.g. 850000"
-                  required
                   min="0"
                 />
               </div>
@@ -358,6 +360,19 @@ const ProductForm = () => {
                 />
                 <span className="checkmark"></span>
                 Mark as Best Seller
+              </label>
+            </div>
+
+            <div className="form-group checkbox-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="is_hidden"
+                  checked={form.is_hidden}
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+                Hide Product (Out of Stock / Temporary Unavailable)
               </label>
             </div>
           </div>

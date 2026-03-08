@@ -22,6 +22,7 @@ const Home = () => {
             const { data: newData, error: newError } = await supabase
                 .from('products')
                 .select('*')
+                .eq('is_hidden', false)
                 .order('created_at', { ascending: false })
                 .limit(15);
             
@@ -33,6 +34,7 @@ const Home = () => {
                 .from('products')
                 .select('*')
                 .eq('is_best_seller', true)
+                .eq('is_hidden', false)
                 .limit(15);
                 
             if (trendError) throw trendError;
@@ -42,6 +44,7 @@ const Home = () => {
                 const { data: fallbackData } = await supabase
                     .from('products')
                     .select('*')
+                    .eq('is_hidden', false)
                     .order('created_at', { ascending: true })
                     .limit(15);
                 setTrendingProducts(fallbackData || []);

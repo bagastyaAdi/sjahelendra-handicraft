@@ -76,7 +76,9 @@ const ProductCard = ({ product }) => {
                     <h3 className="product-title">{product.name}</h3>
                 </Link>
                 <div className="product-bottom">
-                    {!hidePrice && <span className="product-price">{formatPrice(product.price)}</span>}
+                    {!hidePrice && product.price !== null && product.price !== undefined && (
+                        <span className="product-price">{formatPrice(product.price)}</span>
+                    )}
                     {!hideStock && stockInfo && stockInfo.className !== 'stock-out' && (
                         <span className={`stock-badge ${stockInfo.className}`}>
                             {stockInfo.label}

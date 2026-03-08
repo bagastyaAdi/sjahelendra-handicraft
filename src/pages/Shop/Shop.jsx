@@ -51,7 +51,7 @@ const Shop = () => {
 
     // Filter Logic
     const filteredProducts = useMemo(() => {
-        let result = products;
+        let result = products.filter(p => !p.is_hidden);
 
         if (activeCategory !== "All") {
             // Check if activeCategory matches main_category OR sub_category
@@ -89,7 +89,7 @@ const Shop = () => {
     // Best Sellers Logic (Only show if not searching and has active category or All)
     const bestSellers = useMemo(() => {
         if (searchQuery || viewMode === 'list') return [];
-        let result = products.filter(p => p.is_best_seller);
+        let result = products.filter(p => p.is_best_seller && !p.is_hidden);
 
         if (activeCategory !== "All") {
             result = result.filter(p =>

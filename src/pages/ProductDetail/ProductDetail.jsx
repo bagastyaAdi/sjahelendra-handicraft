@@ -46,6 +46,7 @@ const ProductDetail = () => {
             const { data: productData, error: productError } = await supabase
                 .from('products')
                 .select('*')
+                .eq('is_hidden', false)
                 .ilike('name', `%${searchPattern}%`)
                 .single();
 
@@ -62,6 +63,7 @@ const ProductDetail = () => {
                     .from('products')
                     .select('*')
                     .eq('main_category', productData.main_category)
+                    .eq('is_hidden', false)
                     .neq('id', productData.id)
                     .limit(4);
 
@@ -86,7 +88,7 @@ const ProductDetail = () => {
             cleanNumber = '+62' + cleanNumber.substring(1); // Assuming Indonesian format if starts with 0
         }
         
-        const message = `Hello Sjahlendra Handicraft! I'm interested in buying product:\n\n*${product.name}*\nLink: ${window.location.href}`;
+        const message = `Hello Sjahlendra Handicraft! I'm interested in buying product:\n\n*${product.name}*\n*Product Code: ${product.code || '-'}*\nLink: ${window.location.href}`;
         const encodedMessage = encodeURIComponent(message);
         
         window.open(`https://wa.me/${cleanNumber.replace('+', '')}?text=${encodedMessage}`, '_blank');
@@ -99,7 +101,7 @@ const ProductDetail = () => {
         }
 
         const subject = encodeURIComponent(`Purchase Inquiry: ${product.name}`);
-        const body = encodeURIComponent(`Hello Sjahlendra Handicraft,\n\nI am interested in purchasing the following product:\n\nProduct Name: ${product.name}\nProduct Link: ${window.location.href}\n\nPlease let me know about the availability, shipping, and payment process.\n\nThank you.`);
+        const body = encodeURIComponent(`Hello Sjahlendra Handicraft,\n\nI am interested in purchasing the following product:\n\nProduct Name: ${product.name}\nProduct Code: ${product.code || '-'}\nProduct Link: ${window.location.href}\n\nPlease let me know about the availability, shipping, and payment process.\n\nThank you.`);
         
         // Menggunakan standar mailto agar kompatibel dengan app default user (Gmail di Android/iOS)
         window.location.href = `mailto:${localSettings.email}?subject=${subject}&body=${body}`;
@@ -146,7 +148,9 @@ const ProductDetail = () => {
                 <div className="product-detail-info">
                     <h1 className="detail-title">{product.name}</h1>
 
-                    {!hidePrice && <div className="detail-price">{formatPrice(product.price)}</div>}
+                    {!hidePrice && product.price !== null && product.price !== undefined && (
+                        <div className="detail-price">{formatPrice(product.price)}</div>
+                    )}
 
                     {/* Purchase Actions */}
                     <div className="purchase-actions">

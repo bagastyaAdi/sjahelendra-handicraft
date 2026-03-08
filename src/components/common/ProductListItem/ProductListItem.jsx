@@ -57,7 +57,9 @@ const ProductListItem = ({ product }) => {
                 </Link>
                 <p className="product-list-description">{product.description}</p>
                 <div className="product-list-bottom">
-                    {!hidePrice && <span className="list-price">{formatPrice(product.price)}</span>}
+                    {!hidePrice && product.price !== null && product.price !== undefined && (
+                        <span className="list-price">{formatPrice(product.price)}</span>
+                    )}
                     {!hideStock && getStockLabel()}
                 </div>
                 <div className="product-list-actions">

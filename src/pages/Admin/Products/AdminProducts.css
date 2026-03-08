@@ -1,4 +1,4 @@
-.admin-products {}
+/* Admin Products Styles */
 
 .page-header {
   display: flex;
@@ -212,6 +212,16 @@
   color: #999;
 }
 
+.badge-visible {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.badge-hidden {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
 .action-btns {
   display: flex;
   gap: 6px;
@@ -233,6 +243,8 @@
 }
 
 .action-btn.view:hover { background: #f0f2f5; color: #333; }
+.action-btn.toggle-visibility.visible:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+.action-btn.toggle-visibility.hidden:hover { background: #ecfdf5; color: #059669; border-color: #a7f3d0; }
 .action-btn.edit:hover { background: #eef2ff; color: #4f46e5; border-color: #c7d2fe; }
 .action-btn.delete:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
 

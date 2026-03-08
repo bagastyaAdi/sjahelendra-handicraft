@@ -1,4 +1,4 @@
-import { AlertCircle, Edit2, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { AlertCircle, Edit2, ExternalLink, Eye, EyeOff, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../../lib/supabaseClient';
@@ -34,6 +34,29 @@ const AdminProducts = () => {
     }
   };
 
+  const handleToggleVisibility = async (product) => {
+    try {
+      const newHiddenStatus = !product.is_hidden;
+      const { error } = await supabase
+        .from('products')
+        .update({ is_hidden: newHiddenStatus })
+        .eq('id', product.id);
+
+      if (error) throw error;
+
+      setProducts(products.map(p =>
+        p.id === product.id ? { ...p, is_hidden: newHiddenStatus } : p
+      ));
+      setMessage({
+        type: 'success',
+        text: `Product is now ${newHiddenStatus ? 'hidden' : 'visible'}.`
+      });
+    } catch (error) {
+      console.error('Error toggling visibility:', error);
+      setMessage({ type: 'error', text: 'Failed to update visibility.' });
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
       const { error } = await supabase.from('products').delete().eq('id', id);
@@ -53,6 +76,7 @@ const AdminProducts = () => {
   );
 
   const formatPrice = (price) => {
+    if (price === null || price === undefined) return '-';
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
   };
 
@@ -107,6 +131,7 @@ const AdminProducts = () => {
                 <th>Category</th>
                 <th>Price</th>
                 <th>Best Seller</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -140,9 +165,23 @@ const AdminProducts = () => {
                     )}
                   </td>
                   <td>
+                    {product.is_hidden ? (
+                      <span className="badge badge-hidden">Hidden</span>
+                    ) : (
+                      <span className="badge badge-visible">Visible</span>
+                    )}
+                  </td>
+                  <td>
                     <div className="action-btns">
-                      <a href={`/product/${createSlug(product.name)}`} target="_blank" rel="noopener noreferrer" className="action-btn view">
-                        <Eye size={16} />
+                      <button
+                        className={`action-btn toggle-visibility ${product.is_hidden ? 'hidden' : 'visible'}`}
+                        onClick={() => handleToggleVisibility(product)}
+                        title={product.is_hidden ? 'Show Product' : 'Hide Product'}
+                      >
+                        {product.is_hidden ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                      <a href={`/product/${createSlug(product.name)}`} target="_blank" rel="noopener noreferrer" className="action-btn view" title="View on Storefront">
+                        <ExternalLink size={16} />
                       </a>
                       <Link to={`/sj-manage/products/edit/${product.id}`} className="action-btn edit">
                         <Edit2 size={16} />
