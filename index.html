@@ -1,13 +1,57 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/handcraft.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sjahlendra Handicraft</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="/handcraft.svg" />
+        <title>
+            Sjahlendra Handicraft — Handcrafted Balinese Furniture & Home Décor
+        </title>
+        <meta
+            name="description"
+            content="Ethically sourced, sustainably crafted Balinese handcraft furniture, home décor, and fashion. Bringing the heart of Bali to your home."
+        />
+        <meta name="theme-color" content="#FDFBF7" />
+
+        <!-- Preconnect: establish early connections to font servers -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <!--
+      Font strategy for minimal CLS:
+      - Lato (body): display=optional → uses system font (Arial) if not cached in time.
+        Lato and Arial are metrically very similar so visual difference is negligible.
+        On repeat visits fonts are cached → zero CLS, perfect render.
+      - Playfair Display (headings): display=swap → always loads, paired with a
+        size-adjusted CSS fallback (@font-face in index.css) to minimise reflow.
+    -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=optional"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        />
+
+        <!-- Preload hero fallback images (LCP element) -->
+        <link
+            rel="preload"
+            as="image"
+            href="/hero-new.png"
+            fetchpriority="high"
+            media="(min-width: 769px)"
+        />
+        <link
+            rel="preload"
+            as="image"
+            href="/hero-new-mobile.png"
+            fetchpriority="high"
+            media="(max-width: 768px)"
+        />
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.jsx"></script>
+    </body>
 </html>

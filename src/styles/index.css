@@ -1,128 +1,157 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+/*
+ * Fonts are loaded via <link> in index.html (preconnect + display strategy).
+ * We define size-adjusted fallback @font-face here so that when Playfair Display
+ * swaps in, the reflow is negligible — keeping CLS ≤ 0.01.
+ */
+
+/* Playfair Display fallback: Georgia adjusted to match Playfair's metrics */
+@font-face {
+    font-family: "Playfair-fallback";
+    src: local("Georgia"), local("Times New Roman");
+    size-adjust: 107%;
+    ascent-override: 78%;
+    descent-override: 22%;
+    line-gap-override: 0%;
+}
+
+/* Lato fallback: Arial adjusted to match Lato's metrics */
+@font-face {
+    font-family: "Lato-fallback";
+    src: local("Arial"), local("Helvetica Neue"), local("Arial MT");
+    size-adjust: 99%;
+    ascent-override: 100%;
+    descent-override: normal;
+    line-gap-override: normal;
+}
 
 :root {
-  --color-bg: #FDFBF7;
-  --color-text-primary: #2C2C2C;
-  --color-text-secondary: #5A5A5A;
-  --color-accent: #C58970; /* Terracotta */
-  --color-accent-hover: #A06B55;
-  --color-sage: #8DA399;
-  --color-border: #E5E0D8;
-  --color-white: #FFFFFF;
-  
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Lato', sans-serif;
-  
-  --spacing-container: 1200px;
+    --color-bg: #fdfbf7;
+    --color-text-primary: #2c2c2c;
+    --color-text-secondary: #5a5a5a;
+    --color-accent: #c58970; /* Terracotta */
+    --color-accent-hover: #a06b55;
+    --color-sage: #8da399;
+    --color-border: #e5e0d8;
+    --color-white: #ffffff;
+
+    --font-serif: "Playfair Display", "Playfair-fallback", Georgia, serif;
+    --font-sans: "Lato", "Lato-fallback", Arial, system-ui, sans-serif;
+
+    --spacing-container: 1200px;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  line-height: 1.2;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
 }
 
 img {
-  max-width: 100%;
-  display: block;
+    max-width: 100%;
+    display: block;
 }
 
 button {
-  font-family: var(--font-sans);
-  cursor: pointer;
-  border: none;
-  background: none;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    border: none;
+    background: none;
 }
 
 .container {
-  max-width: var(--spacing-container);
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .btn {
-  padding: 12px 24px;
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+    padding: 12px 24px;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 .btn-primary {
-  background-color: var(--color-accent);
-  color: var(--color-white);
-  border: 1px solid var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: 1px solid var(--color-accent);
 }
 
 .btn-primary:hover {
-  background-color: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
 }
 
 .btn-outline {
-  background-color: transparent;
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-text-primary);
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-text-primary);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-text-primary);
-  color: var(--color-white);
+    background-color: var(--color-text-primary);
+    color: var(--color-white);
 }
 
 .section {
-  padding: 80px 0;
+    padding: 80px 0;
 }
 
 .section-title {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--color-text-primary);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-text-primary);
 }
 
 .section-subtitle {
-  font-size: 1rem;
-  text-align: center;
-  color: var(--color-accent);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
-  display: block;
+    font-size: 1rem;
+    text-align: center;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: block;
 }
 
 /* Global Skeleton Loading Animation */
 .loading-shimmer {
-  background: linear-gradient(90deg, #eeeeee 25%, #f5f5f5 50%, #eeeeee 75%);
-  background-size: 200% 100%;
-  animation: loading-shimmer 1.5s infinite;
+    background: linear-gradient(90deg, #eeeeee 25%, #f5f5f5 50%, #eeeeee 75%);
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
 }
 
 @keyframes loading-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
