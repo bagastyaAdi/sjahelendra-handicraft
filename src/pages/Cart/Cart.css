@@ -1,4 +1,5 @@
-.cart-page, .cart-page-empty {
+.cart-page,
+.cart-page-empty {
     padding-top: 60px;
     padding-bottom: 100px;
     min-height: 80vh;
@@ -63,7 +64,9 @@
     border-radius: 16px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
     border: 1px solid var(--color-border);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .cart-item-card:hover {
@@ -127,10 +130,10 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    background: #F4F1ED;
+    background: #f4f1ed;
     padding: 6px 12px;
     border-radius: 30px;
-    border: 1px solid rgba(0,0,0,0.03);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .qty-btn {
@@ -145,7 +148,7 @@
     border-radius: 50%;
     color: var(--color-text-primary);
     transition: all 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .qty-btn:hover {
@@ -166,7 +169,7 @@
     gap: 6px;
     background: transparent;
     border: none;
-    color: #A3A3A3;
+    color: #a3a3a3;
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 500;
@@ -245,7 +248,6 @@
 .checkout-methods {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 .btn-checkout {
@@ -264,45 +266,14 @@
 }
 
 .wa-method {
-    background: #25D366;
+    background: #25d366;
     color: white;
 }
 
 .wa-method:hover {
-    background: #1FB355;
+    background: #1fb355;
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.2);
-}
-
-.email-method {
-    background: var(--color-text-primary);
-    color: white;
-}
-
-.email-method:hover {
-    background: #000;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
-
-.method-divider {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 10px 0;
-}
-
-.method-divider::before, .method-divider::after {
-    content: "";
-    flex-grow: 1;
-    height: 1px;
-    background: var(--color-border);
-}
-
-.method-divider span {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    font-weight: 600;
 }
 
 .inquiry-footer {
@@ -360,16 +331,16 @@
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .cart-item-image img {
         width: 100%;
         height: 200px;
     }
-    
+
     .inquiry-card {
         padding: 30px 20px;
     }
-    
+
     .cart-title {
         font-size: 2.2rem;
     }
