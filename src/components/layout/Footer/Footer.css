@@ -1,6 +1,5 @@
 .footer {
-    background-color: #F5F2EA;
-    /* Slightly darker than bg */
+    background-color: #525633;
     padding: 80px 0 40px;
     margin-top: 80px;
 }
@@ -18,7 +17,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 24px;
-    color: var(--color-text-primary);
+    color: #fafafa;
 }
 
 .footer-logo-container {
@@ -32,18 +31,19 @@
     height: 38px;
     width: auto;
     object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
 .footer-logo-text {
     height: 34px;
     width: auto;
     object-fit: contain;
-    /* Use filter if needed for dark mode, but currently footer is light #F5F2EA */
+    filter: brightness(0) invert(1);
 }
 
 .footer-text {
     font-size: 0.95rem;
-    color: var(--color-text-secondary);
+    color: rgba(250, 250, 250, 0.8);
     line-height: 1.8;
     max-width: 100%;
 }
@@ -57,12 +57,12 @@
 }
 
 .footer ul li a {
-    color: var(--color-text-secondary);
+    color: rgba(250, 250, 250, 0.8);
     font-size: 0.95rem;
 }
 
 .footer ul li a:hover {
-    color: var(--color-accent);
+    color: #96ac40;
 }
 
 .social-links {
@@ -75,13 +75,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--color-text-secondary);
+    color: rgba(250, 250, 250, 0.8);
     font-size: 0.95rem;
     transition: all 0.3s ease;
 }
 
 .social-link:hover {
-    color: var(--color-accent);
+    color: #96ac40;
     transform: translateX(5px);
 }
 
@@ -90,14 +90,14 @@
 }
 
 .contact-details p {
-    color: var(--color-text-secondary);
+    color: rgba(250, 250, 250, 0.8);
     font-size: 0.95rem;
     margin-bottom: 12px; /* Consistent with list items */
 }
 
 .footer-copyright {
     font-size: 0.8rem;
-    color: #999;
+    color: rgba(250, 250, 250, 0.5);
     margin-top: 32px;
 }
 

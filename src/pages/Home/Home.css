@@ -34,7 +34,7 @@
 }
 
 .about-preview {
-    background-color: #F5F2EA;
+    background-color: #525633;
     text-align: center;
     margin-top: 40px;
 }
@@ -46,7 +46,21 @@
 
 .about-preview .about-content p {
     font-size: 1.1rem;
-    color: var(--color-text-secondary);
+    color: rgba(250, 250, 250, 0.85);
+}
+
+.about-preview .section-title {
+    color: #fafafa;
+}
+
+.about-preview .btn-outline {
+    color: #fafafa;
+    border-color: #fafafa;
+}
+
+.about-preview .btn-outline:hover {
+    background-color: #fafafa;
+    color: #525633;
 }
 
 @media (max-width: 900px) {
